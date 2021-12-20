@@ -37,13 +37,7 @@ class AdapterDB (context:Context):SQLiteOpenHelper(context,"UserDb",null,1) {
 
     }
 
-    fun getName():Cursor{
-        val db   = this.readableDatabase
 
-        return  db.rawQuery("SELECT * FROM "+TABLE_NAME,null)
-
-
-    }
 
     fun getUser():ArrayList<UserData>{
         val db  =  this.writableDatabase
@@ -59,10 +53,9 @@ class AdapterDB (context:Context):SQLiteOpenHelper(context,"UserDb",null,1) {
 
     }
 
-
-
-
-
-
+    fun deleteUser(id :String):Int {
+        val db  = this.writableDatabase
+        return db.delete(TABLE_NAME,"id=?", arrayOf(id))
+    }
 
 }

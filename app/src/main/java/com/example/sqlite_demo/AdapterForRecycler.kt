@@ -19,6 +19,11 @@ class AdapterForRecycler(val item :List<UserData>) : RecyclerView.Adapter<Adapte
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.itemView.NameText_rec.text = item[position].Name
         holder.itemView.AgeText_rec.text = item[position].Age
+        holder.itemView.setOnClickListener(object :View.OnClickListener{
+            override fun onClick(v: View?) {
+                
+            }
+        })
     }
 
     override fun getItemCount(): Int {
