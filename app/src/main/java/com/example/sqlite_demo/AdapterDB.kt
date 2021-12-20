@@ -45,6 +45,22 @@ class AdapterDB (context:Context):SQLiteOpenHelper(context,"UserDb",null,1) {
 
     }
 
+    fun getUser():ArrayList<UserData>{
+        val db  =  this.writableDatabase
+        val userInfo  =  ArrayList<UserData>()
+        val res =  db.rawQuery("SELECT * FROM "+TABLE_NAME,null)
+
+        while (res.moveToNext()){
+            var userin  = UserData(Integer.valueOf(res.getString(0)),res.getString(1),res.getString(2))
+
+            userInfo.add(userin)
+        }
+        return userInfo
+
+    }
+
+
+
 
 
 
