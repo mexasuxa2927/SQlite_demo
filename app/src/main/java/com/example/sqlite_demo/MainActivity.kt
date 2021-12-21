@@ -4,10 +4,12 @@ import android.app.AlertDialog
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_dialogs.*
 import kotlinx.android.synthetic.main.custom_dialogs.view.*
@@ -17,7 +19,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
         UploadUser()
+
+        val handler  = Handler()
+        swipeRef.setOnRefreshListener {
+           val  runable  = Runnable { UploadUser() }
+
+            handler.postDelayed( runable,1000)
+        }
 
         AddButton.setOnClickListener(object :View.OnClickListener{
             override fun onClick(v: View?) {
@@ -27,6 +38,12 @@ class MainActivity : AppCompatActivity() {
                 val mBuilder  = AlertDialog.Builder(this@MainActivity).setView(mDialogView).setTitle("Add User")
 
                 val mAlertDialog  = mBuilder.show()
+                mDialogView.CancelButton_dialog.setOnClickListener(object :View.OnClickListener{
+                    override fun onClick(v: View?) {
+                        mAlertDialog.cancel()
+                    }
+
+                })
 
                 mDialogView.ADDButton_dialog.setOnClickListener(object :View.OnClickListener{
                     override fun onClick(v: View?) {
@@ -49,7 +66,9 @@ class MainActivity : AppCompatActivity() {
         val db  = AdapterDB(this)
         val userInfo  = db.getUser()
         RecyclerUser.layoutManager = LinearLayoutManager(this)
-        RecyclerUser.adapter =  AdapterForRecycler(userInfo)
+        RecyclerUser.adapter =  AdapterForRecycler(userInfo,this)
+
+        swipeRef.isRefreshing = false
 
     }
 
