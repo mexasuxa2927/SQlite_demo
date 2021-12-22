@@ -26,12 +26,31 @@ class AdapterForRecycler(val item :List<UserData>,val context:Context) : Recycle
         holder.itemView.setOnClickListener(object :View.OnClickListener{
             override fun onClick(v: View?) {
                 val mDialog =  LayoutInflater.from(context).inflate(R.layout.custol_select_dialog,null)
-                val mBuilder = AlertDialog.Builder(context).setView(mDialog).setTitle("Edit text")
+                val mBuilder = AlertDialog.Builder(context).setView(mDialog).setTitle("Edit "+itemms.Name)
+
+
                 val AlertDialog  = mBuilder.show()
+
                 mDialog.DeleteButton_dialog.setOnClickListener(object :View.OnClickListener{
                     override fun onClick(v: View?) {
                         val db = AdapterDB(context)
                         db.deleteUser(itemms.Id.toString())
+                        AlertDialog.cancel()
+
+                    }
+                })
+                mDialog.AppendButton_dialog.setOnClickListener(object :View.OnClickListener{
+                    override fun onClick(v: View?) {
+                        val db  =  AdapterDB(context)
+                        db.appendUserInfo(
+                            itemms.Id.toString(), mDialog.NameText1.text.toString(),
+                            mDialog.AgeText1.text.toString()
+                        )
+                        AlertDialog.cancel()
+                    }
+                })
+                mDialog.CancelButton_dialog.setOnClickListener(object :View.OnClickListener{
+                    override fun onClick(v: View?) {
                         AlertDialog.cancel()
 
                     }

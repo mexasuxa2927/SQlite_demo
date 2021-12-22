@@ -58,4 +58,16 @@ class AdapterDB (context:Context):SQLiteOpenHelper(context,"UserDb",null,1) {
         return db.delete(TABLE_NAME,"id=?", arrayOf(id))
     }
 
+
+    fun appendUserInfo(id:String,name :String,age:String):Boolean{
+        val contentValues  = ContentValues()
+        val db  = this.writableDatabase
+        contentValues.put(COL_ID,id)
+        contentValues.put(COL_NAME,name)
+        contentValues.put(COL_AGE,age)
+        db.update(TABLE_NAME,contentValues,"id=?", arrayOf(id))
+        return true
+    }
+
+
 }
